@@ -30,7 +30,8 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
   label_issues:
-    if: failure()
+    needs: build
+    if: ${{ failure() }}
     runs-on: windows-latest
     permissions:
       issues: write
