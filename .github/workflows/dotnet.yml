@@ -1,0 +1,22 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: TestTaches
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: windowTask
+      uses: actions/checkout@v4
+    - name: LinuxTask
+      run: 
+        echo checkout réussi
+        echo Bravo
+  
