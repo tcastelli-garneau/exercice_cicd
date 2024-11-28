@@ -36,5 +36,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Create team sync issue
+      - name: Create issue
         run: gh issue create --title "Tests failure" --body "Nothing works, help" --label "bug"
+        env:
+          GH_TOKEN: ${{ github.token }}
