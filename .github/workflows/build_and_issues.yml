@@ -29,16 +29,29 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-  label_issues:
+  create_issue:
     needs: build
     if: ${{ failure() }}
     runs-on: windows-latest
     permissions:
       issues: write
     steps:
-      - run: gh issue edit "$NUMBER" --add-label "$LABELS"
+      - name: Create team sync issue
+        run: |
+          new_issue_url=$(gh issue create \
+            --title "$TITLE" \
+            --assignee "$ASSIGNEES" \
+            --label "$LABELS" \
+            --body "$BODY")
+          if [[ $PINNED == true ]]; then
+            gh issue pin "$new_issue_url"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.issue.number }}
+          TITLE: Tests failure
+          ASSIGNEES: tcastelli-garneau
           LABELS: bug
+          BODY: |
+            ### BUG
+          PINNED: true
